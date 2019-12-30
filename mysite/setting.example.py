@@ -123,11 +123,11 @@ STATIC_URL = '/static/'
 
 # email设置
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.qq.com'
+EMAIL_HOST = ''
 EMAIL_PORT = 25
-EMAIL_HOST_USER = '1184995893@qq.com'
-EMAIL_HOST_PASSWORD = 'mgvyzuoqijwghabe'
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
 EMAIL_USE_TLS = True # 这里必须是 True，否则发送不成功
-EMAIL_FROM = '1184995893@qq.com' # 你的 QQ 账号
+EMAIL_FROM = '' # 你的 QQ 账号
 # 注册有效期
 CONFIRM_DAYS = 7
