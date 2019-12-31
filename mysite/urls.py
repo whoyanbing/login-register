@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from rest_framework.urlpatterns import format_suffix_patterns
 from login import views
 
 urlpatterns = [
@@ -24,5 +25,9 @@ urlpatterns = [
     path('register/', views.register),
     path('logout/', views.logout),
     path('captcha/', include('captcha.urls')),
-    path('confirm/', views.user_confirm)
+    path('confirm/', views.user_confirm),
+    path('api/user_list', views.UserList.as_view()),
+    path('api/user_detail/<int:pk>', views.UserDetail.as_view()),
 ]
+
+urlpatterns = format_suffix_patterns(urlpatterns)

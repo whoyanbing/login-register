@@ -1,8 +1,16 @@
 from django.shortcuts import render, redirect
 from django.conf import settings
+# from django.http import Http404
+
+# from rest_framework import status
+# from rest_framework.decorators import api_view
+# from rest_framework.views import APIView
+# from rest_framework.response import Response
+from rest_framework import generics
 
 from .models import User, ConfirmString
 from .forms import UserForm, RegisterForm
+from .serializers import UserSerializer
 
 
 import hashlib, datetime
@@ -151,3 +159,99 @@ def user_confirm(request):
         confirm.delete()
         message = '感谢确认,请使用账户登录!'
         return render(request, 'login/confirm.html', locals())
+
+
+class UserList(generics.ListCreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+class UserDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+# 基于函数的视图
+# @api_view(['GET', 'POST'])
+# def user_list(request, format=None):
+#     if request.method == 'GET':
+#         users = User.objects.all()
+#         serializer = UserSerializer(users, many=True)
+#         return Response(serializer.data)
+
+#     if request.method == 'POST':
+#         serializer = UserSerializer(data=request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data, status=status.HTTP_201_CREATED)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+# @api_view(['GET', 'PUT', 'DELETE'])
+# def user_detail(request, pk, format=None):
+#     """
+#     获取,更新或者删除一个实例
+#     """
+#     try:
+#         user = User.objects.get(pk=pk)
+#     except User.DoesNotExist:
+#         return Response(status=status.HTTP_404_NOT_FOUND)
+#     if request.method == 'GET':
+#         serializer = UserSerializer(user)
+#         return Response(serializer.data)
+#     if request.method == 'PUT':
+#         serializer = UserSerializer(user, data=request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+#     if request.method == 'DELETE':
+#         user.delete()
+#         return Response(status=status.HTTP_204_NO_CONTENT)
+
+# 基于类的视图
+# class UserList(APIView):
+#     # APIView实际继承django总的View
+#     # from django.views.generic import View
+#     """
+#     列出所有用户,或者创建新用户
+#     """
+#     def get(self, request, format=None):
+#         users = User.objects.all()
+#         # many=True用户QuerySet对象
+#         serializer = UserSerializer(users, many=True)
+#         # Response比dnango的response更加强大
+#         return Response(serializer.data)
+
+#     def post(self, request, format=None):
+#         serializer = UserSerializer(data=request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             # save()方法是调用UserSerializer中的create()方法
+#             return Response(serializer.data, status=status.HTTP_201_CREATED)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+# class UserDetail(APIView):
+#     """
+#     列出,更新,或者删除一个用户
+#     """
+#     def get_object(self, pk):
+#         try:
+#             return User.objects.get(pk=pk)
+#         except User.DoesNotExist:
+#             raise Http404
+
+#     def get(self, request, pk, format=None):
+#         user = self.get_object(pk)
+#         serializer = UserSerializer(user)
+#         return Response(serializer.data)
+
+#     def put(self, request, pk, format=None):
+#         user = self.get_object(pk)
+#         serializer = UserSerializer(user, data=request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+#     def delete(self, request, pk, format=None):
+#         user = self.get_object(pk)
+#         user.delete()
+#         return Response(status=status.HTTP_204_NO_CONTENT)
