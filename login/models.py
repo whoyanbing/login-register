@@ -29,8 +29,8 @@ class User(models.Model):
     class Meta:
         # 就近显示
         ordering = ['-c_time']
-        verbose_name = '用户'
-        verbose_name_plural = '用户'
+        verbose_name = '用户列表'
+        verbose_name_plural = '用户列表'
 
 
 class ConfirmString(models.Model):
@@ -43,5 +43,5 @@ class ConfirmString(models.Model):
 
     class Meta:
         ordering = ['-c_time']
-        verbose_name = '确认码'
-        verbose_name_plural = '确认码'
+        verbose_name = '注册确认码'
+        verbose_name_plural = '注册确认码'

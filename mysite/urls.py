@@ -28,6 +28,7 @@ urlpatterns = [
     path('confirm/', views.user_confirm),
     path('api/user_list', views.UserList.as_view()),
     path('api/user_detail/<int:pk>', views.UserDetail.as_view()),
+    path('video/', include('video.urls')),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
